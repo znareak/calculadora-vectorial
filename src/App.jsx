@@ -8,6 +8,7 @@ import {
   dotProductVector,
   plotVectors,
   plotVectors3D,
+  angleBetweenVectors,
 } from "./helpers/utils";
 import Select from "react-select";
 import { useEffect, useRef, useState } from "react";
@@ -35,6 +36,7 @@ function App() {
   const [result, setResult] = useState(null);
   const [operation, setOperation] = useState(options[0].value);
   const [v, setV] = useState(0);
+  const [angle, setAngle] = useState(0);
   const onChangeOperation = ({ value: operation }) => {
     setOperation(operation);
     const fd = new FormData(formRef.current);
@@ -51,13 +53,14 @@ function App() {
     } else if (typeof res === "object") {
       vectores.push(res);
     }
-
+    console.log(vectores);
     setTimeout(() => {
       if (Array.isArray(res)) {
         setResult(res[0]);
       } else {
         setResult(res);
       }
+      setAngle(angleBetweenVectors(vector1, vector2));
       plotVectors(vectores);
       plotVectors3D(vectores);
     }, 50);
@@ -78,7 +81,7 @@ function App() {
   useEffect(() => {
     onChangeOperation({ value: operation });
   }, [operation, v]);
-
+  console.log({ angle });
   return (
     <div
       className="mx-auto px-4 w-100 mt-5"
@@ -221,6 +224,10 @@ function App() {
               <div>
                 <span>Z</span>
                 <Input htmlType="number" width="100%" value={result.z.toFixed(2)} disabled />
+              </div>
+              <div>
+                <span>Angulo resultando entre vector 1 y 2</span>
+                <Input htmlType="number" width="100%" value={angle.toFixed(2)} disabled />
               </div>
             </div>
           )

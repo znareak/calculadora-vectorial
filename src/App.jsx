@@ -53,7 +53,7 @@ function App() {
     } else if (typeof res === "object") {
       vectores.push(res);
     }
-    console.log(vectores);
+
     setTimeout(() => {
       if (Array.isArray(res)) {
         setResult(res[0]);
@@ -81,7 +81,7 @@ function App() {
   useEffect(() => {
     onChangeOperation({ value: operation });
   }, [operation, v]);
-  console.log({ angle });
+
   return (
     <div
       className="mx-auto px-4 w-100 mt-5"
@@ -226,7 +226,7 @@ function App() {
                 <Input htmlType="number" width="100%" value={result.z.toFixed(2)} disabled />
               </div>
               <div>
-                <span>Angulo resultando entre vector 1 y 2</span>
+                <span>Angulo resultante entre vector 1 y 2</span>
                 <Input htmlType="number" width="100%" value={angle.toFixed(2)} disabled />
               </div>
             </div>

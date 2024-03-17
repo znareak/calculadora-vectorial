@@ -52,7 +52,6 @@ export function angleBetweenVectors(a, b) {
   return Math.acos(cosAngle) * (180 / Math.PI);
 }
 
-
 export function normalize(v1) {
   const magnitude = Math.sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
   const result = {
@@ -61,6 +60,24 @@ export function normalize(v1) {
     z: v1.z / magnitude,
   };
   return result;
+}
+
+function toDegrees(radians) {
+  return radians * (180 / Math.PI);
+}
+
+export function angulo2(vector) {
+  const moduloVector = Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
+
+  const x = toDegrees(Math.acos(vector.x / moduloVector));
+  const y = toDegrees(Math.acos(vector.y / moduloVector));
+  const z = toDegrees(Math.acos(vector.z / moduloVector));
+
+  return {
+    x,
+    y,
+    z,
+  };
 }
 
 export function plotVectors(vectorInfo) {
@@ -78,7 +95,6 @@ export function plotVectors(vectorInfo) {
       textposition: "top right",
     };
   });
-  console.log({ data });
   const layout = {
     title: "Gráfico 2D de Vectores",
     autosize: false,
@@ -98,8 +114,10 @@ export function plotVectors(vectorInfo) {
 }
 export function plotVectors3D(vectorInfo) {
   const data = Object.keys(vectorInfo).map((key, index) => {
-    const angleRad = Math.atan2(vectorInfo[key].y, vectorInfo[key].x);
-    const angleDeg = (angleRad * 180) / Math.PI;
+    // const angleRad = Math.atan2(vectorInfo[key].y, vectorInfo[key].x);
+    // const angleDeg = (angleRad * 180) / Math.PI;
+    const angulo = angulo2(vectorInfo[key]);
+
     return {
       x: [0, vectorInfo[key].x],
       y: [0, vectorInfo[key].y],
@@ -107,7 +125,7 @@ export function plotVectors3D(vectorInfo) {
       type: "scatter3d",
       mode: "lines+markers",
       name: vectorInfo[key].label ?? `Vector ${index + 1}`,
-      text: [null, `${angleDeg.toFixed(2)}°`],
+      text: `${angulo.x.toFixed(3)}°  ${angulo.y.toFixed(3)}°  ${angulo.z.toFixed(3)}°`,
       textposition: "top right",
     };
   });
